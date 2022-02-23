@@ -6,7 +6,7 @@ const User = require('../models/user')
 const register = async (req, email, password, done) => {
     const user = new User()
     user.email = email
-    user.password = password
+    user.password = user.encryptPassword(password)
     await user.save()
     done(null, user)
 }
