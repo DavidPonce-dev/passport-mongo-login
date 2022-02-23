@@ -1,4 +1,5 @@
 const express = require('express')
+const passport = require('passport')
 const router = express.Router()
 
 router.get('/', (req, res, next)=>{
@@ -10,10 +11,11 @@ router.get('/signup', (req, res, next)=>{
     
 })
 
-router.post('/signup', (req, res, next)=>{
-    console.log(req.body)
-    res.send('recibido')
-})
+router.post('/signup', passport.authenticate('local-signup', {
+    successRedirect: '/',
+    failureRedirect: '/signup',
+    passReqToCallback: true
+}))
 
 router.get('/signin', (req, res, next)=>{
     
