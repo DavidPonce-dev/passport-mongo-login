@@ -1,9 +1,16 @@
 const express = require('express')
 const engine = require('ejs-mate')
+const session = require('express-session')
 const morgan = require('morgan')
-const connectDB = require('./db')
+const passport = require('passport')
 const path = require('path')
+
+const connectDB = require('./db')
+const { secret } = require('./keys')
+
+//inicializadores
 const app = express();
+require('./passport/local-auth')
 
 app.set('views', path.join(__dirname, 'views'))
 
@@ -16,15 +23,25 @@ app.set('port', process.env.PORT || 3000)
 //middlewares
 
 app.use(morgan('dev'))
+app.use(session({
+    secret,
+    resave: false,
+    saveUninitialized: false
+
+}))
 app.use(express.urlencoded({extended:false}))
+app.use(passport.initialize())
+app.use(passport.session())
 
 //routes
 
 app.use('/', require('./routes/index'))
 
+//run
+
 app.listen(app.get('port'), async()=> {
-    console.log('servidor corriendo en puerto: ', app.get('port'))
-    connectDB
+    console.log('servidor corriendo en puerto:', app.get('port'))
+    connectDB()
         .then(() => console.log('conectado a la DB'))
         .catch(err => console.error(err))
 })
