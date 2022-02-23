@@ -1,5 +1,6 @@
 const express = require('express')
 const engine = require('ejs-mate')
+const morgan = require('morgan')
 const path = require('path')
 const app = express();
 
@@ -10,6 +11,11 @@ app.engine('ejs', engine)
 app.set('view engine', 'ejs')
 
 app.set('port', process.env.PORT || 3000)
+
+//middlewares
+
+app.use(morgan('dev'))
+app.use(express.urlencoded({extended:false}))
 
 //routes
 
