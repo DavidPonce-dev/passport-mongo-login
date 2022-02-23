@@ -1,6 +1,7 @@
 const express = require('express')
 const engine = require('ejs-mate')
 const morgan = require('morgan')
+const connectDB = require('./db')
 const path = require('path')
 const app = express();
 
@@ -21,7 +22,9 @@ app.use(express.urlencoded({extended:false}))
 
 app.use('/', require('./routes/index'))
 
-
-app.listen(app.get('port'), ()=> {
+app.listen(app.get('port'), async()=> {
     console.log('servidor corriendo en puerto: ', app.get('port'))
+    connectDB
+        .then(() => console.log('conectado a la DB'))
+        .catch(err => console.error(err))
 })
