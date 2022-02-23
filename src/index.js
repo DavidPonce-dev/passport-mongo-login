@@ -11,6 +11,11 @@ app.set('view engine', 'ejs')
 
 app.set('port', process.env.PORT || 3000)
 
+//routes
+
+app.use('/', require('./routes/index'))
+
+
 app.listen(app.get('port'), ()=> {
     console.log('servidor corriendo en puerto: ', app.get('port'))
 })
