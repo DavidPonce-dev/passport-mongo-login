@@ -4,9 +4,13 @@ const LocalStrategy = require('passport-local').Strategy
 const User = require('../models/user')
 
 const register = async (req, email, password, done) => {
-    const user = new User()
-    user.email = email
-    user.password = user.encryptPassword(password)
+    
+    const user =  User.findOne({email})
+    if (user) return done(null, false, req.flash('mensaje SignUp', 'el correo ya existe'))
+    
+    const newUser = new User()
+    newUser.email = email
+    newUser.password = user.encryptPassword(password)
     await user.save()
     done(null, user)
 }

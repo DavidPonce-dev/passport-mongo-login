@@ -2,6 +2,7 @@ const express = require('express')
 const engine = require('ejs-mate')
 const session = require('express-session')
 const morgan = require('morgan')
+const flash = require('connect-flash')
 const passport = require('passport')
 const path = require('path')
 
@@ -22,6 +23,7 @@ app.set('port', process.env.PORT || 3000)
 
 //middlewares
 
+app.use(flash)
 app.use(morgan('dev'))
 app.use(session({
     secret,
