@@ -23,17 +23,20 @@ app.set('port', process.env.PORT || 3000)
 
 //middlewares
 
-app.use(flash)
+app.use(express.urlencoded({extended:false}))
 app.use(morgan('dev'))
 app.use(session({
     secret,
     resave: false,
     saveUninitialized: false
-
 }))
-app.use(express.urlencoded({extended:false}))
+app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
+app.use((req, res, next) => {
+    app.locals.signupMessage = req.flash('signupMessage')
+    next()
+})
 
 //routes
 
