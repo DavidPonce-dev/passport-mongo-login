@@ -1,7 +1,5 @@
+    <%- layout('layouts/main') %>
     <h1>Signin</h1>
-    <% if (signupMessage) { %>
-        <div><%= signupMessage %> </div>
-    <% } %> 
     <form action="/signin" method="post">
         <input type="email" name="email">
         <input type="password" name="password">
